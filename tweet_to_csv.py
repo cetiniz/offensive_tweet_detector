@@ -13,7 +13,7 @@ tweets = get_tweets(twitter_handle, pages=int(twitter_pages))
 
 filename = "tweet_data_" + twitter_handle + ".csv"
 with open(filename, 'w') as csvfile:
-    writer = csv.writer(csvfile, delimiter=',', quotechar='~')
+    writer = csv.writer(csvfile)
     writer.writerow(['handle', 'text'])
     for tweet in tweets:
         writer.writerow([twitter_handle, tweet['text']])
