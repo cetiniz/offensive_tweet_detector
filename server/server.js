@@ -1,6 +1,10 @@
 const express = require('express');
 const mongoose = require('mongoose');
+
 const keys = require('./keys/authkeys');
+const TwitterScrapper = require('./twitter_scrapper');
+
+
 
 const dev_uri = `mongodb://${keys.mongoose.user}:${keys.mongoose.pass}@ds119422.mlab.com:19422/twitter_ml_dev`;
 
@@ -22,14 +26,17 @@ const labelSchema = mongoose.Schema({
 });
 
 const app = express();
+
 const port = process.env.PORT || 5000;
 
 // Route to fetch tweets
 
 app.get('/tweet', (req, res) => {
-  res.send({ express: 'Hello From Express' });
+  const user = new TwitterScrapper('realDonaldTrump', 1);
+  user.gen_tweets(function(tweet_data) {
+    res.send({ express: tweet_data });
+  });
 });
-
 // Route to post label on tweet
 
 app.get('/tweet/:tweetId', (req, res) => {
