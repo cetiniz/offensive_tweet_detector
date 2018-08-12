@@ -2,12 +2,6 @@ const cheerio = require('cheerio');
 const request = require('request');
 
 module.exports = function get_tweets(user, pages) {
-  // Gets tweets for a given user, via the Twitter frontend API
-  // const req = request.defaults({
-  //   jar: true,                 // save cookies to jar
-  //   rejectUnauthorized: false, 
-  //   followAllRedirects: true   // allow redirections
-  // });
   const url = 'https://twitter.com/i/profiles/show/' + user + '/timeline/tweets?include_available_features=1&include_entities=1&include_new_items_bar=true';
   
   const options = { 

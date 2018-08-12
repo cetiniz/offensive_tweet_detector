@@ -31,8 +31,8 @@ const port = process.env.PORT || 5000;
 
 // Route to fetch tweets
 
-app.get('/tweet', (req, res) => {
-  const user = new TwitterScrapper('realDonaldTrump', 1);
+app.get('/tweet/:username', (req, res) => {
+  const user = new TwitterScrapper(req.params.username, 1);
   user.gen_tweets(function(tweet_data) {
     res.send({ express: tweet_data });
   });
