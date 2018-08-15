@@ -25,7 +25,8 @@ const tweetStyle = {
   border: '1px solid gainsboro',
   padding: '5px 20px',
   maxWidth: 500,
-  marginBottom: 20
+  marginBottom: 20,
+  boxShadow: '1px 1px 1px 1px gainsboro'
 }
 
 class App extends Component {
@@ -37,6 +38,7 @@ class App extends Component {
           'realDonaldTrump'
         ],
         currentTweet: 0,
+        isLoading: true,
       }
       this.fetchTweets = this.fetchTweets.bind(this);
       this.fetchNextTweet = this.fetchNextTweet.bind(this);
@@ -47,10 +49,11 @@ class App extends Component {
     async fetchTweets() {
       const { userNames } = this.state;
       const randomUserIndex = Math.floor(Math.random() * userNames.length);
+      await this.setState({ isLoading: true });
       const tweetResponse = await axios.get(`/tweet/${userNames[randomUserIndex]}`);
       console.log(tweetResponse)
       if (tweetResponse.data) {
-        this.setState({ tweetData: tweetResponse.data.express, currentTweet: 0 });
+        this.setState({ tweetData: tweetResponse.data.express, currentTweet: 0, isLoading: false });
         console.log(tweetResponse.data.express[0].tweet_text)
       }
     }
@@ -81,20 +84,24 @@ class App extends Component {
               justifyContent: 'center',
               alignItems: 'center',
             }}>
-              <div style={tweetStyle}>
-                <p>
-                  {this.state.tweetData && 
-                      <div>{this.state.tweetData[this.state.currentTweet].tweet_text}</div>
-                  }
-                </p>
-              </div>
-              <div>
-                <button onClick={this.fetchNextTweet} style={buttonStyle.nFire}>Wouldn't Fire</button>
-                <button onClick={this.fetchNextTweet} style={buttonStyle.mFire}>Maybe Fire</button>
-                <button onClick={this.fetchNextTweet} style={buttonStyle.fFire}>Fire away</button>
-              </div>
+            {this.state.isLoading ? 
+              <object id="ripple" data="./assets/Ripple.svg" type="image/svg+xml"></object> : (
+               <div>
+                 <div style={tweetStyle}>
+                   <p>
+                     {this.state.tweetData && this.state.tweetData[this.state.currentTweet].tweet_text}
+                     }
+                   </p>
+                 </div>
+                 <div>
+                   <button onClick={this.fetchNextTweet} style={buttonStyle.nFire}>Wouldn't Fire</button>
+                   <button onClick={this.fetchNextTweet} style={buttonStyle.mFire}>Maybe Fire</button>
+                   <button onClick={this.fetchNextTweet} style={buttonStyle.fFire}>Fire away</button>
+                 </div>
+               </div>
+              )}
             </div>
-          </div>
+        </div>
         );
     }
 }
