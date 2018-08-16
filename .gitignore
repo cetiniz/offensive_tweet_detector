@@ -1,4 +1,5 @@
 Pipfile
 Pipfile.lock
-server/keys
+keys
+twitter_ml/keys
 node_modules

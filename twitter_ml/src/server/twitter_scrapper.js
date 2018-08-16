@@ -38,8 +38,8 @@ module.exports = function get_tweets(user, pages) {
       $('.stream-item').each(function(i, elm) {
         const tweet_text = $(this).find('.tweet-text').text();
         const tweet_id = $(this).find('.js-permalink').attr('data-conversation-id');
-
-        tweet_data.push({ tweet_text: tweet_text, tweet_id: tweet_id });
+        const tweet_handle = user;
+        tweet_data.push({ tweet_text: tweet_text, tweet_id: tweet_id, tweet_handle: tweet_handle });
       });
       callback(tweet_data);
     })

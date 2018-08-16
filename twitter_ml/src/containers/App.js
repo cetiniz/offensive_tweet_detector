@@ -68,6 +68,19 @@ class App extends Component {
       }
     }
 
+    labelTweet(numberLabel) {
+      const { tweetData, currentTweet } = this.state;
+      const currentTweetData = tweetData[currentTweet];
+      axios.post(
+        `/tweet/${currentTweetData.tweet_id}`, 
+        { tweet_id: currentTweetData.tweet_id, 
+          tweet_text: currentTweetData.tweet_text, 
+          tweet_handle: currentTweetData.tweet_handle,
+          tweet_label: numberLabel
+        });
+      this.fetchNextTweet();
+    }
+
     render() {
         return (
           <div style={{ 
@@ -94,9 +107,9 @@ class App extends Component {
                    </p>
                  </div>
                  <div>
-                   <button onClick={this.fetchNextTweet} style={buttonStyle.nFire}>Wouldn't Fire</button>
-                   <button onClick={this.fetchNextTweet} style={buttonStyle.mFire}>Maybe Fire</button>
-                   <button onClick={this.fetchNextTweet} style={buttonStyle.fFire}>Fire away</button>
+                   <button onClick={() => this.labelTweet(0)} style={buttonStyle.nFire}>Wouldn't Fire</button>
+                   <button onClick={() => this.labelTweet(1)} style={buttonStyle.mFire}>Maybe Fire</button>
+                   <button onClick={() => this.labelTweet(2)} style={buttonStyle.fFire}>Fire away</button>
                  </div>
                </div>
               )}
