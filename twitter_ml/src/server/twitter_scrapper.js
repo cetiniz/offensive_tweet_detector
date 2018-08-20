@@ -1,7 +1,7 @@
 const cheerio = require('cheerio');
 const request = require('request');
 
-module.exports = function get_tweets(user, pages) {
+module.exports = function get_tweets(user) {
   const url = 'https://twitter.com/i/profiles/show/' + user + '/timeline/tweets?include_available_features=1&include_entities=1&include_new_items_bar=true';
   
   const options = { 
@@ -23,7 +23,15 @@ module.exports = function get_tweets(user, pages) {
     } 
   };
 
-  this.gen_tweets = function(callback, pages) {
+  this.gen_tweets = function(callback, max_position) {
+    console.log(max_position)
+    if (max_position && parseInt(max_position) > 0) {
+      console.log(max_position)
+      options.qs.max_position = max_position;
+    } else if (options.qs.max_position !== undefined) {
+      delete options.qs.max_position;
+    }
+    console.log()
     request(options, function(err, resp, body) {
       const json_body = body && JSON.parse(body);
       if (json_body && json_body.items_html) {
