@@ -57,6 +57,7 @@ app.post('/tweet/:tweetId', (req, res) => {
     newTweetLabel.save(function (err) {
       if (err) throw err;
     });
+    res.end('sent!')
   }
 });
 

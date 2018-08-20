@@ -42,6 +42,7 @@ class App extends Component {
       }
       this.fetchTweets = this.fetchTweets.bind(this);
       this.fetchNextTweet = this.fetchNextTweet.bind(this);
+      this.labelTweet = this.labelTweet.bind(this);
     }
     componentDidMount() {
       this.fetchTweets();
